@@ -1,0 +1,58 @@
+services:
+    postgres:
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        image: postgres:latest
+        restart: always
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_PASSWORD=123456
+            - POSTGRES_USER=postgres
+        ports:
+            - 5432:5432
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=mphuc2405@gmail.com
+            - PGADMIN_DEFAULT_PASSWORD=minhphuc
+        ports:
+            - 5050:80
+
+    localStack:
+        container_name: "${LOCALSTACK_DOCKER_NAME-localstack-main}"
+        image: localstack/localstack
+        ports:
+            - 4566:4566
+            - 4510-4559:4510-4559
+        environment:
+            - LOCALSTACK_HOST=localhost
+            - SERVICES=s3
+            - AWS_DEFAULT_REGION=us-east-1
+            - AWS_SECRET_ACCESS_KEY=aaa
+            - AWS_ACCESS_KEY_ID=aaa
+            - DEBUG=${DEBUG-}
+            - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+            - DOCKER_HOST=unix:///var/run/docker.sock
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock #: this line cannot be runned in docker desktop
+            - ${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack
+        networks:
+            default:
+                aliases:
+                      - localhost.localstack.cloud
+
+
+    restFul:
+        image: 'spring_postgres_docker:0.0.1'
+        ports:
+            - '8082:8080'
+        environment:
+            spring.datasource.url: jdbc:postgresql://postgres:5432/postgres
+            aws.localStackHost: http://localStack:4566
+            logging.file.name: log/server.log
+
+volumes:
+    postgres_data:
+        external: true
+    localstack-vol: #declare the volume for the compose file

@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!-- Topbar Start -->
+<div th:fragment="header-fragment" class="container-fluid">
+    <div class="row bg-secondary py-1 px-xl-5">
+        <div class="col-lg-6 d-none d-lg-block">
+        </div>
+        <div class="col-lg-6 text-center text-lg-right">
+            <div class="d-inline-flex align-items-center d-block d-lg-none">
+                <a href="" class="btn px-0 ml-2">
+                    <i class="fas fa-heart text-dark"></i>
+                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                </a>
+                <a href="" class="btn px-0 ml-2">
+                    <i class="fas fa-shopping-cart text-dark"></i>
+                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+        <div class="col-lg-4">
+            <a href="/" class="text-decoration-none">
+                <span class="h1 text-uppercase text-primary bg-dark px-2">Image</span>
+                <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Manager</span>
+            </a>
+        </div>
+        <div class="col-lg-4 col-6 text-left">
+        </div>
+        <div class="col-lg-4 col-6 text-right">
+            <div class="btn-group">
+                <a th:if="${session.USER == null}" href="/login"><button type="button" class="btn btn-sm btn-light" >Sign in</button></a>
+
+                <div th:if="${session.USER != null}" class="avatar">
+                        <img src="/img/admin.png" alt="Avatar"
+                             class="avatar_anh" onclick="showMenu()">
+                        <div class="avatar_ndung">
+                            <ul class="avatar_menu" id="menu">
+                                <li class="avatar-li">
+                                    <a href="/user/${USER_MODEL.userId}">
+                                        <i class="avatar_icon ti-user"></i>
+                                        Cá nhân</a>
+                                </li>
+                                <li class="avatar-li">
+                                    <a href="#">
+                                        <i class=" avatar_icon ti-settings"></i>
+                                        Cài đặt</a>
+                                </li>
+                                <li class="avatar-li">
+                                    <a href="#">
+                                        <i class="avatar_icon ti-help-alt"></i>
+                                        Trợ giúp</a>
+                                </li>
+                                <li class="avatar-li">
+                                    <a href="#">
+                                        <i class="avatar_icon ti-info-alt"></i>
+                                        Phản hồi</a>
+                                </li>
+                                <li class="avatar-li">
+                                    <a href="/login?action=logout">
+                                        <i class="avatar_icon ti-drupal"></i>
+                                        Đăng xuất</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Topbar End -->
+
+<!-- Navbar Start -->
+<div class="container-fluid bg-dark mb-30">
+    <div class="row px-xl-5">
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
+                <a href="" class="text-decoration-none d-block d-lg-none">
+                    <span class="h1 text-uppercase text-dark bg-light px-2">Multi</span>
+                    <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Shop</span>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+
+<script>
+    function showMenu() {
+        var menu = document.getElementById("menu");
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "block";
+        }
+
+        document.addEventListener("click", (event) => {
+                if (!event.target.closest(".avatar")) {
+                    menu.style.display = "none";
+                }
+            }
+        );
+    }
+
+    function showOption(id)
+    {
+        var menu = document.getElementById("menu-" + id);
+        if (menu.style.display === "block")
+        {
+            menu.style.display = "none";
+        } else
+        {
+            menu.style.display = "block";
+        }
+
+        document.addEventListener("click", (event) =>
+            {
+                if (!event.target.closest('.blog-status-' + id))
+                {
+                    menu.style.display = "none";
+                }
+            }
+        );
+    }
+</script>

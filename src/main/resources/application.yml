@@ -1,0 +1,54 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://172.20.0.2:5432/postgres
+        username: postgres
+        password: 123456
+        driver-class-name: org.postgresql.Driver
+
+    servlet:
+        multipart:
+            max-file-size: 128KB
+            max-request-size: 128KB
+    security:
+        oauth2:
+            client:
+                registration:
+                    cognito:
+                        client-id:
+                        client-secret:
+                        redirect-uri: http://localhost:8082/login/oauth2/code/cognito
+                        clientName: first_project_client
+                provider:
+                    cognito:
+                        issuer-uri:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+
+application:
+    security:
+        jwt:
+            secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+            expiration: 86400000 # a day
+            refresh-token:
+                expiration: 604800000 # 7 days
+
+aws:
+    localStackHost: https://localhost:4566
+    region: us-east-1
+    accessKey: aaa
+    secretAccessKey: aaa
+    s3:
+        imageBucketName: image
+        backUpBucketName: backup
+
+
+springdoc:
+    show-actuator: true
+    swagger-ui:
+        groups-order: DESC
+        disable-swagger-default-url: true
